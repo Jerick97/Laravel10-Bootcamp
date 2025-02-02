@@ -8,15 +8,34 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Aquí es donde puedes registrar rutas web para tu aplicación. Estas
+| rutas son cargadas por RouteServiceProvider y todas ellas
+| serán asignadas al grupo de middleware "web". ¡Haz algo genial!
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
+}); */
+
+// Ruta abreviada en caso de devolver solo la vista
+Route::view('/', 'welcome')->name('welcome');
+
+Route::get('/chirps', function () {
+    return 'Welcome to our chirps page';
+})->name('chirps.index');
+
+Route::get('/chirps/{chirp}', function ($chirp) { ///chirps/{chirp?}, function ($chirp = null) para que chirp sea opcional
+    //Agregar redireccion
+    if($chirp === '2'){
+        //forma mas larga return redirect()->route('chirps.index');
+        return to_route('chirps.index');
+    }
+    return 'Chirp ' . $chirp;
 });
+
+// comando para ver las rutas de nuestra app
+// php artisan route:list --except-vendor
 
 Route::get('/dashboard', function () {
     return view('dashboard');
