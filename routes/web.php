@@ -21,30 +21,34 @@ use Illuminate\Support\Facades\Route;
 // Ruta abreviada en caso de devolver solo la vista
 Route::view('/', 'welcome')->name('welcome');
 
-Route::get('/chirps', function () {
-    return 'Welcome to our chirps page';
-})->name('chirps.index');
 
-Route::get('/chirps/{chirp}', function ($chirp) { ///chirps/{chirp?}, function ($chirp = null) para que chirp sea opcional
-    //Agregar redireccion
-    if($chirp === '2'){
-        //forma mas larga return redirect()->route('chirps.index');
-        return to_route('chirps.index');
-    }
-    return 'Chirp ' . $chirp;
-});
 
 // comando para ver las rutas de nuestra app
 // php artisan route:list --except-vendor
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard'); */
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/chirps', function () {
+        return view('chirps.index');
+    })->name('chirps.index');
+    
+    Route::get('/chirps/{chirp}', function ($chirp) { ///chirps/{chirp?}, function ($chirp = null) para que chirp sea opcional
+        //Agregar redireccion
+        if($chirp === '2'){
+            //forma mas larga return redirect()->route('chirps.index');
+            return to_route('chirps.index');
+        }
+        return 'Chirp ' . $chirp;
+    });
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
 require __DIR__.'/auth.php';
