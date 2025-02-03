@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Chirp;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,9 +38,18 @@ Route::middleware('auth')->group(function () {
         return view('chirps.index');
     })->name('chirps.index');
     Route::post('/chirps', function () {
-        $message = request('message'); // Retorna un json con los datos del formulario 
+        // request();  Retorna un json con los datos del formulario 
         // Insertar en la base de datos
-        return $message;
+        $validated = request()->validate([
+            'message' => 'required|string|max:255',
+        ]);
+    
+        Chirp::create([
+            'message' => $validated['message'],
+            'user_id' => auth()->id(),
+        ]);
+
+        return to_route('chirps.index');
     });
     Route::get('/chirps/{chirp}', function ($chirp) { ///chirps/{chirp?}, function ($chirp = null) para que chirp sea opcional
         //Agregar redireccion
