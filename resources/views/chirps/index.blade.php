@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form class="max-w-sm mx-auto flex flex-col gap-2" method="POST">
+                    <form class="max-w-sm mx-auto flex flex-col gap-2" method="POST" action="{{ route('chirps.store') }}">
                         @csrf <!-- CSRF Token - Siempre que se utilice Post -->
                         <label for="message"
                             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">{{ __('Your message') }}</label>

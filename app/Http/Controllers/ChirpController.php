@@ -12,7 +12,7 @@ class ChirpController extends Controller
      */
     public function index()
     {
-        //
+        return view('chirps.index');
     }
 
     /**
@@ -28,7 +28,21 @@ class ChirpController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // request();  Retorna un json con los datos del formulario 
+        // Insertar en la base de datos
+        // Validar datos
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+
+        // Insertar en la base de datos
+        Chirp::create([
+            'message' => $validated['message'],
+            'user_id' => auth()->id(),
+        ]);
+        //session()->flash('status','¡El tweet ha sido creado correctamente!');
+        // Redirigir con mensaje flash
+        return to_route('chirps.index')->with('status', __('The tweet has been created successfully!'));
     }
 
     /**
@@ -36,7 +50,12 @@ class ChirpController extends Controller
      */
     public function show(Chirp $chirp)
     {
-        //
+        // Agregar redirección si el ID del chirp es '2'
+        if ($chirp->id === 2) {
+            return to_route('chirps.index');
+        }
+
+        return "Chirp ID: " . $chirp->id;
     }
 
     /**
