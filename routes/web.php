@@ -49,7 +49,9 @@ Route::middleware('auth')->group(function () {
             'user_id' => auth()->id(),
         ]);
 
-        return to_route('chirps.index');
+        //session()->flash('status','¡El tweet ha sido creado correctamente!');
+
+        return to_route('chirps.index')->with('status',__('The tweet has been created successfully!'));
     });
     Route::get('/chirps/{chirp}', function ($chirp) { ///chirps/{chirp?}, function ($chirp = null) para que chirp sea opcional
         //Agregar redireccion
