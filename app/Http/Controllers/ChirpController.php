@@ -32,7 +32,7 @@ class ChirpController extends Controller
         // Insertar en la base de datos
         // Validar datos
         $validated = $request->validate([
-            'message' => 'required|string|max:255',
+            'message' => 'required|string|max:255|min:3',
         ]);
 
         // Insertar en la base de datos
